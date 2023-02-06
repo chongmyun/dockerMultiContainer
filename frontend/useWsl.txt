@@ -1,0 +1,2 @@
+//임시디스크 생성
+new-vhd -Dynamic -SizeBytes 50gb -BlockSizeBytes 1mb -path D:\dockerComp\multiContainer\frontend\src/filesystem.vhdx

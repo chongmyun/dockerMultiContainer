@@ -8,6 +8,10 @@ RUN npm install
 
 COPY . /app
 
+ENV MONGODB_USERNAME=root
+ENV MONGODB_PASSWORD=secret
+ENV MONGODB_DB=test
+
 EXPOSE 80
 
-CMD ["node","app.js"]
+CMD ["npm","start"]

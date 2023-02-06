@@ -1,0 +1,17 @@
+//도커 멀티컨테이너 실행 및 DB데이터 영구저장
+docker run --name mongodb -v data:/data/db --rm -d --network goals-net -e MONGO_INITDB_ROOT_USERNAME=max -e MONGO_INITDB_ROOT_PASSWORD=secret -e MONGO_INITDB_DATABASE=course-goals mongo
+
+docker build -t goals-node .
+docker run --name goals-backend --rm -d --network goals-net -p 80:80 goals-node
+
+docker build -t goals-react .
+docker run --name goals-frontend --rm -d -p 3000:3000 -it  goals-react
+
+//백앤드 영구저장할 데이터
+docker run --name goals-backend --rm -d -v D:\dockerComp\multiContainer\backend:/app -v logs:/app/logs -v /app/node_modules --network goals-net -p 80:80 goals-node
+
+//환경변수를 설정하여 몽고디비 이용자 입력
+docker run --name mongodb -v data:/data/db --rm -d --network goals-net -e MONGODB_USERNAME=max -e MONGODB_PASSWORD=secret -e MONGODB_DB=course-goals mongo
+
+//프론트앤드 영구저장할 테이더
+docker run -v D:\dockerComp\multiContainer\frontend\src:/app/src --name goals-frontend --rm -d -p 3000:3000 -it  goals-react
