@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  mongodb:
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    container_name: mongodb
+    env_file:
+      - ./env/mongo.env   #상대경로
+    # environment:
+    #   MONGODB_USERNAME: max
+    #   MONGODB_PASSWORD: secret
+    #   - MONGODB_DB=course-goals
+    # networks:
+    #   - goals-net
+  backend:
+    container_name: goals-backend
+    build: ./backend
+    # build:
+    #   context: ./backend    #Dockerfile이 참조할 수 있는 폴더 및 파일이 있는경로여야함
+    #   dockerfile: Dockerfile
+    #   args:
+    #     some-arg: 1
+    ports:
+      - "80:80"
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:         #의존성 추가
+      - mongodb
+  frontend:
+    container_name: goals-frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true    #interactive 모드
+    tty: true           #interactive 모드
+    depends_on:
+      - backend
+
+# 명명된 볼륨 지정
+volumes:
+  data:
+  logs: 

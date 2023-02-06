@@ -1,0 +1,6 @@
+//도커 컴포즈는 한개의 호스트에서 여러개의 컨테이너를 관리하기 좋다 (여러개 호스트는 관리하기 힘듬)
+//도커 컴포즈는 도커파일을 대체하지 않는다(도커파일 있어야함)
+//도커 컴포즈 실행
+docker-compose up (-d:detached모드 ) -> build 단계가 포함
+docker-compose build - build만 한다.
+docker-compose down (-v:볼륨도 같이삭제)
